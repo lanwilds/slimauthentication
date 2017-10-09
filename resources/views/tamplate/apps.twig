@@ -1,0 +1,219 @@
+{% extends 'tamplate/app.twig' %}
+{% block content %}
+<div class="container-fluid">
+<div class="page-header">
+{% if update == 1 %}
+<h3>Update App</h3>
+{% else %}
+<h3>Add New App</h3>
+{% endif %}
+</div>
+<div class="well" style="overflow:scroll;">
+<table class="table">
+<caption><strong>Last Added</strong></caption>
+    <thead>
+      <tr>
+        <th>Action</th>
+      	<th>App ID</th>
+        <th>App Name</th>
+        <th>size</th>
+        <th>version</th>
+        <th>Slug</th>
+        <th>Download Path</th>
+        <th>Catagory</th>
+        <th>Image Type</th>
+        <th>ICON</th>
+        <th>Screenshots</th>
+        <th>Screenshots</th>
+        <th>Screenshots</th>
+        <th>Added By</th>
+      </tr>
+    </thead>
+    <tbody>
+     {% for app in applist.app %}
+      <tr>
+        <td><a href="{{ base_url() }}/dashboard/apps/update/{{ app.aid }}" class="btn btn-info" >Edit</a><br>
+        <form action="{{ base_url() }}/dashboard/apps/trash/{{ app.aid }}" method="post">
+        <input type="submit" value="Delete" class="btn btn-warning" />
+        </form>
+        </td>
+        <td>{{ app.aid }}</td>
+        <td>{{ app.name }}</td>
+        <td>{{ app.size }}</td>
+        <td>{{ app.version }}</td>
+        <td>{{ app.slug }}</td>
+        <td>{{ app.path }}</td>
+        <td>
+        {% for catg in catagory.cat %} 
+        {% if catg.cid == app.catagory %}  
+        {{ catg.name }} 
+        {% endif %}
+        {% endfor %}
+        </td>
+        <td>{% if app.img_type == 1 %} Local Uploaded {% else %} Out Sourced {% endif %}</td>
+        <td>{{ app.icon }}</td>
+        <td>{{ app.ss1 }}</td>
+        <td>{{ app.ss2 }}</td>
+        <td>{{ app.ss3 }}</td>
+        <td>
+        {% for admin in admins.usr %}
+        {% if admin.aid == app.published_by %}
+        {{ admin.username }}
+        {% endif %}
+        {% endfor %}
+        </td>
+      </tr>  
+      {% endfor %}  
+    </tbody>
+  </table>
+</div>
+  <script>
+  $( function() {
+    $( "#accordion" ).accordion();
+  } );
+  </script>
+
+</div>
+<div class="container-fluid">
+<div class="page-header">
+{% if update == 1 %}
+<h3>Update App</h3>
+{% else %}
+<h3>Add New App</h3>
+{% endif %}
+  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" onclick="getImages()">Add Media</button>
+</div>
+<div class="panel panel-primary">
+{% if update == 1 %}
+<div class="panel-heading">Quick Update App </div>
+{% else %}
+<div class="panel-heading">Quick New App </div>
+{% endif %}
+<div class="panel-body">
+{% if update == 1 %}
+<form action="{{ path_for('dash.upapp') }}" method="post">
+{% else %}
+<form action="{{ path_for('dash.newapp') }}" method="post">
+{% endif %}
+	<div class="form-group {{ apperrors.name ? ' has-error' : '' }}">
+	<lable for="name">Name</lable>
+	<input type="text" id="name" name="name" placeholder="Short App name here" class="form-control" {% if update == 1 %} value="{{ dirty.name }}" {% else %} value="{{ appold.name }}" {% endif %}>
+	{% if apperrors.name %}
+	<span class="help-block">{{ apperrors.name | first }}</span>
+	{% endif %}
+	</div>
+	<div class="form-group{{ apperrors.slug ? ' has-error' : '' }}">
+	<lable for="slug">App Link</lable>
+	<input type="text" id="slug" name="slug" placeholder="App Slug here(No whitespace)" class="form-control" {% if update == 1 %} value="{{ dirty.slug }}" {% else %} value="{{ appold.slug }}" {% endif %}>
+	{% if apperrors.slug %}
+	<span class="help-block">{{ apperrors.slug | first }}</span>
+	{% endif %}
+	</div>
+	<div class="form-group{{ apperrors.path ? ' has-error' : '' }}">
+	<lable for="path">Download Path</lable>
+	<input type="text" id="path" {% if update == 1 %} value="{{ dirty.path }}" {% else %} value="{{ appold.path }}" {% endif %} name="path" placeholder="APK path url (No whitespace)" class="form-control" >
+	{% if apperrors.path %}
+	<span class="help-block">{{ apperrors.path | first }}</span>
+	{% endif %}
+	</div>
+	<div class="form-group{{ apperrors.desc ? ' has-error' : '' }}">
+	<lable for="desc">Description</lable>
+	<textarea id="desc" name="desc" class="form-control">{% if update == 1 %} {{ dirty.description }} {% else %} {{ appold.desc }} {% endif %}</textarea>
+	{% if apperrors.desc %}
+	<span class="help-block">{{ apperrors.desc | first }}</span>
+	{% endif %}
+	</div>
+	<div class="form-group{{ apperrors.size ? ' has-error' : '' }}">
+	<lable for="size">App Size</lable>
+	<input type="text" id="size" name="size" placeholder="App size (MB or GB) eg:10MB" class="form-control" {% if update == 1 %} value="{{ dirty.size }}" {% else %} value="{{ appold.size }}" {% endif %}>
+	{% if apperrors.size %}
+	<span class="help-block">{{ apperrors.size | first }}</span>
+	{% endif %}
+	</div>
+	<div class="form-group{{ apperrors.version ? ' has-error' : '' }}">
+	<lable for="version">Version</lable>
+	<input type="text" id="version" name="version" placeholder="version" class="form-control" {% if update == 1 %} value="{{ dirty.version }}" {% else %} value="{{ appold.version }}" {% endif %}>
+	{% if apperrors.version %}
+	<span class="help-block">{{ apperrors.version | first }}</span>
+	{% endif %}
+	</div>
+	<div class="form-group{{ apperrors.catagory ? ' has-error' : '' }}">
+	<lable for="catagory">Catagory</lable>
+	<select  class="form-control" name="catagory">
+	 <option value="0">Select Catagory</option>
+	 {% for catagory in catagory.cat %} 
+	 
+	 <option value="{{ catagory.cid }}">{{ catagory.name }} </option>
+
+	 {% endfor %} 
+	</select>
+	{% if apperrors.catagory %}
+	<span class="help-block">{{ apperrors.catagory | first }}</span>
+	{% endif %}
+	</div>
+	<!--imgs link-->
+	<div class="form-group{{ apperrors.img ? ' has-error' : '' }}">
+	<lable for="img">Image Type</lable>
+	<select  class="form-control" name="img">
+	 <option value="">Select Img Type</option>
+	 <option value="1">Local Upload</option>
+	 <option value="2">Link Upload</option>
+	</select>
+	{% if apperrors.img %}
+	<span class="help-block">{{ apperrors.img | first }}</span>
+	{% endif %}
+	</div>
+	<div class="form-group{{ apperrors.icon ? ' has-error' : '' }}">
+	<lable for="icon">ICON</lable>
+	<input type="text" id="icon" name="icon" placeholder="ICON link(No whitespace)" class="form-control" {% if update == 1 %} value="{{ dirty.icon }}" {% else %} value="{{ appold.icon }}" {% endif %} >
+	{% if apperrors.icon %}
+	<span class="help-block">{{ apperrors.icon | first }}</span>
+	{% endif %}
+	</div>
+	<div class="form-group{{ apperrors.ss1 ? ' has-error' : '' }}">
+	<lable for="ss1">Screen Shot</lable>
+	<input type="text" id="ss1" name="ss1" placeholder="Screen Shot(No whitespace)" class="form-control" {% if update == 1 %} value="{{ dirty.ss1 }}" {% else %} value="{{ appold.ss1 }}" {% endif %}>
+	{% if apperrors.ss1 %}
+	<span class="help-block">{{ apperrors.ss1 | first }}</span>
+	{% endif %}
+	</div>
+	<div class="form-group{{ apperrors.ss2 ? ' has-error' : '' }}">
+	<lable for="ss2">Screen Shot</lable>
+	<input type="text" id="ss2" name="ss2" placeholder="Screen Shot(No whitespace)" class="form-control" {% if update == 1 %} value="{{ dirty.ss2 }}" {% else %} value="{{ appold.ss2 }}" {% endif %}>
+	{% if apperrors.ss2 %}
+	<span class="help-block">{{ apperrors.ss2 | first }}</span>
+	{% endif %}
+	</div>
+	<div class="form-group{{ apperrors.ss3 ? ' has-error' : '' }}">
+	<lable for="ss3">Screen Shot</lable>
+	<input type="text" id="ss3" name="ss3" placeholder="Screen Shot(No whitespace)" class="form-control" {% if update == 1 %} value="{{ dirty.ss3 }}" {% else %} value="{{ appold.ss3 }}" {% endif %}>
+	{% if apperrors.ss3 %}
+	<span class="help-block">{{ apperrors.ss3 | first }}</span>
+	{% endif %}
+	</div>
+	{% if update == 1 %}
+	<input type="hidden" name="aid" value="{{ aid }}">
+	<button type="submit" class="btn btn-primary btn-lg" style="margin-top:10px;">Update</button>
+	{% else %}
+	<button type="submit" class="btn btn-primary btn-lg" style="margin-top:10px;">POST</button>
+	{% endif %}
+	{{ csrf.field | raw }}
+</form>
+</div>
+
+
+</div>
+</div>
+</div>
+
+<!--
+<div>
+
+
+  <h3>Add Images By URL link</h3>
+  <div>
+  
+  </div>
+-->
+
+{% endblock %}

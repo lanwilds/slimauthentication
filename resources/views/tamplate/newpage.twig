@@ -1,0 +1,57 @@
+{% extends 'tamplate/app.twig' %}
+{% block content %}
+<div class="container-fluid">
+{% if update == 1 %}
+<form action="{{ path_for( 'dash.uppage' ) }}" method="post" >
+{% else %}
+<form action="{{ path_for( 'dash.addpage' ) }}" method="post" >
+{% endif %}
+<div class="page-header">
+{% if update == 1 %}
+<h3><i class="fa fa-file-text"></i> Update Page</h3>
+<button type="submit" class="btn btn-primary btn-lg">Update</button>
+{% else %}
+<h3><i class="fa fa-file-text"></i> Add Page</h3>
+<button type="submit" class="btn btn-primary btn-lg">Publish</button>
+{% endif %}
+</div>
+  <div class="form-group {{ pageerrors.title ? ' has-error' : '' }}">
+  <lable for="title">Title</lable>
+  <input type="text" id="title" name="title" placeholder="Enter page title here" class="form-control" {% if update == 1 %} value="{{ dirty.title }}" {% else %} value="{{ pageold.title }}" {% endif %}>
+  {% if pageerrors.title %}
+  <span class="help-block">{{ pageerrors.title | first }}</span>
+  {% endif %}
+  </div>
+  <div class="form-group {{ pageerrors.slug ? ' has-error' : '' }}">
+  <lable for="slug">Slug</lable>
+  <input type="text" id="slug" name="slug" placeholder="Enter page slug here" class="form-control" {% if update == 1 %} value="{{ dirty.slug }}" {% else %} value="{{ pageold.slug }}" {% endif %}>
+  {% if pageerrors.slug %}
+  <span class="help-block">{{ pageerrors.slug | first }}</span>
+  {% endif %}
+  </div>
+  <div class="form-group {{ pageerrors.fimg ? ' has-error' : '' }}">
+  <lable for="fimg">Featured Image</lable>
+  <input type="text" id="fimg" name="fimg" placeholder="Enter link for Featured image here" class="form-control" {% if update == 1 %} value="{{ dirty.slug }}" {% else %} value="{{ pageold.slug }}" {% endif %}>
+  {% if pageerrors.fimg %}
+  <span class="help-block">{{ pageerrors.fimg | first }}</span>
+  {% endif %}
+  </div>
+  <div class="form-group {{ pageerrors.description ? ' has-error' : '' }}">
+  <lable for="description">Description</lable>
+  <textarea class="form-control" name="description" style="resize:none;" placeholder="Enter short description "> {% if update == 1 %} {{ dirty.description }} {% else %} {{ pageold.description }} {% endif %} </textarea>
+  {% if pageerrors.description %}
+  <span class="help-block">{{ pageerrors.description | first }}</span>
+  {% endif %}
+  </div>
+  <div class="form-group {{ pageerrors.content ? ' has-error' : '' }}">
+  <lable for="content">Content</lable>
+  <textarea class="form-control" name="content" rows="80" style="resize:none;" placeholder="Provide full body content"> {% if update == 1 %} {{ dirty.content }} {% else %} {{ pageold.content }} {% endif %} </textarea>
+  {% if pageerrors.content %}
+  <span class="help-block">{{ pageerrors.content | first }}</span>
+  {% endif %}
+  </div>
+  <input type="hidden" name="pid" value="{{ dirty.pid }}">
+</form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,192 @@
+{% extends 'home/tamplate/layout.twig' %}
+{% block content %}
+      <!-- Three columns of text below the carousel -->
+      <div class="page-header">
+      <h1>Today's Top 4 Apps</h1>
+      </div>
+          <section class="row text-center placeholders">
+          {% for top4 in top %}
+            <div class="col-6 col-sm-3 placeholder">
+          {% if top4.img_type == 1 %}
+          <img src="{{ base_url() }}/images/{{ top4.icon }}" width="200" height="200" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail">
+          {% else %}
+          <img src="{{ top4.icon }}" width="200" height="200" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail">
+          {% endif %}
+              <h4>{{ top4.name }}</h4>
+              <div class="text-muted">Version: {{ top4.version }} | {{ top4.size }}</div>
+            </div>
+            {% endfor %}
+           <!-- <div class="col-6 col-sm-3 placeholder">
+              <img src="data:image/gif;base64,R0lGODlhAQABAIABAADcgwAAACwAAAAAAQABAAACAkQBADs=" width="200" height="200" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail">
+              <h4>Label</h4>
+              <span class="text-muted">Something else</span>
+            </div>
+            <div class="col-6 col-sm-3 placeholder">
+              <img src="data:image/gif;base64,R0lGODlhAQABAIABAAJ12AAAACwAAAAAAQABAAACAkQBADs=" width="200" height="200" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail">
+              <h4>Label</h4>
+              <span class="text-muted">Something else</span>
+            </div>
+            <div class="col-6 col-sm-3 placeholder">
+              <img src="data:image/gif;base64,R0lGODlhAQABAIABAADcgwAAACwAAAAAAQABAAACAkQBADs=" width="200" height="200" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail">
+              <h4>Label</h4>
+              <span class="text-muted">Something else</span>
+            </div>-->
+          </section>
+
+    <div class="well">
+     Adds panel 
+    </div>
+<hr class="featurette-divider">
+<div class="gradient" style="margin-bottom:20px;">
+  <h2>Exclusive on LoyalApps</h2>
+</div>
+<div class="container">
+<div class="row">
+<div class="col-xs-14 col-sm-6 col-lg-5">
+<img class="img-thumbnail" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="280" height="200">
+<h3>Terminus APK</h3>
+<p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+<button id="btn" class="btn btn-lg" style="margin-bottom:10px; background:#D4AF37;">Download now</button>
+</div>
+<div class="col-xs-12 col-sm-6 col-lg-5">
+<div class="row">
+  <div class="col-xs-8 col-sm-6 col-md-5 col-lg-6"><img class="img-thumbnail" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="280" height="200">
+  <h3>Terminus APK</h3>
+<button class="btn btn-success" style="margin-bottom:10px;">Download now</button>
+
+  </div>
+  <div class="col-xs-8 col-sm-6 col-md-5 col-lg-6"><img class="img-thumbnail" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="280" height="200">
+  <h3>Terminus APK</h3>
+<button class="btn btn-success" style="margin-bottom:10px;">Download now</button>
+
+  </div>
+  <div class="col-xs-8 col-sm-6 col-md-5 col-lg-6"><img class="img-thumbnail" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="280" height="200">
+  <h3>Terminus APK</h3>
+<button class="btn btn-success" style="margin-bottom:10px;">Download now</button>
+
+  </div>
+  <div class="col-xs-8 col-sm-6 col-md-5 col-lg-6"><img class="img-thumbnail" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="280" height="200">
+  <h3>Terminus APK</h3>
+<button class="btn btn-success" style="margin-bottom:10px;">Download now</button>
+
+  </div>
+  </div>
+</div>
+
+  
+</div>
+</div>
+<hr class="featurette-divider">
+<!--/row-->
+<div class="container">
+    <div class="well">
+     Adds panel 
+    </div>
+<!--column starts-->
+<!--Heading starts-->
+<h3 class="heading">
+<span>Mobile Browsers</span>
+<hr>
+</h3>
+<!--Heading starts ends-->
+<div class="row">
+<div class="col-xs-6 col-sm-6 col-lg-6">
+<img src="feature.png" width="170px" height="160px">
+  <h4>Heading</h4>
+    <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+  <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+
+</div>
+<div class="col-xs-6 col-sm-6 col-lg-5">
+<div class="list-group">
+  <article class="list-group-item">
+  <img src="google_chrome.jpg" width="50px" height="50px" style="float:left;"><h4><a href="#">Google Chrome 7.0</a><br></h4>
+  <button class="btn btn-primary btn-sm">Download Now</button>
+  </article>
+  <article class="list-group-item">
+  <img src="google_chrome.jpg" width="50px" height="50px" style="float:left;"><h4><a href="#">Google Chrome 7.0</a><br></h4>
+  <button class="btn btn-primary btn-sm">Download Now</button>
+  </article>
+  <article class="list-group-item">
+  <img src="google_chrome.jpg" width="50px" height="50px" style="float:left;"><h4><a href="#">Google Chrome 7.0</a><br></h4>
+  <button class="btn btn-primary btn-sm">Download Now</button>
+  </article>
+  <article class="list-group-item">
+  <img src="google_chrome.jpg" width="50px" height="50px" style="float:left;"><h4><a href="#">Google Chrome 7.0</a><br></h4>
+  <button class="btn btn-primary btn-sm">Download Now</button>
+  </article>
+</div>
+</div>
+</div>
+<!--column ends-->
+</div>
+  <hr class="featurette-divider">
+<div class="container">
+<div class="row">
+  <div class="col-xs-12 col-sm-6 col-lg-5">
+  <!--Heading starts-->
+<h3 class="heading">
+<span>Trending Games</span>
+<hr>
+</h3>
+<!--Heading  ends-->
+<img src="google_chrome.jpg" width="140px" height="140px">
+      <h2>Heading</h2>
+      <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+      <button class="btn btn-primary" style="margin-bottom:10px;">Download Now</button>
+<div class="list-group">
+  <article class="list-group-item">
+  <img src="google_chrome.jpg" width="50px" height="50px" style="float:left;"><h4><a href="#">Google Chrome 7.0</a><br></h4>
+  <button class="btn btn-primary btn-sm">Download Now</button>
+  </article>
+  <article class="list-group-item">
+  <img src="google_chrome.jpg" width="50px" height="50px" style="float:left;"><h4><a href="#">Google Chrome 7.0</a><br></h4>
+  <button class="btn btn-primary btn-sm">Download Now</button>
+  </article>
+  <article class="list-group-item">
+  <img src="google_chrome.jpg" width="50px" height="50px" style="float:left;"><h4><a href="#">Google Chrome 7.0</a><br></h4>
+  <button class="btn btn-primary btn-sm">Download Now</button>
+  </article>
+  <article class="list-group-item">
+  <img src="google_chrome.jpg" width="50px" height="50px" style="float:left;"><h4><a href="#">Google Chrome 7.0</a><br></h4>
+  <button class="btn btn-primary btn-sm">Download Now</button>
+  </article>
+</div>
+  </div>
+  <div class="col-xs-12 col-sm-6 col-lg-5">
+<!--Heading starts-->
+<h3 class="heading">
+<span>Trending Games</span>
+<hr>
+</h3>
+<!--Heading  ends-->
+<img src="google_chrome.jpg" width="140px" height="140px">
+    <h2>Heading</h2>
+    <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+    <button class="btn btn-primary" style="margin-bottom:10px;">Download Now</button>
+<div class="list-group">
+  <article class="list-group-item">
+  <img src="google_chrome.jpg" width="50px" height="50px" style="float:left;"><h4><a href="#">Google Chrome 7.0</a><br></h4>
+  <button class="btn btn-primary btn-sm">Download Now</button>
+  </article>
+  <article class="list-group-item">
+  <img src="google_chrome.jpg" width="50px" height="50px" style="float:left;"><h4><a href="#">Google Chrome 7.0</a><br></h4>
+  <button class="btn btn-primary btn-sm">Download Now</button>
+  </article>
+  <article class="list-group-item">
+  <img src="google_chrome.jpg" width="50px" height="50px" style="float:left;"><h4><a href="#">Google Chrome 7.0</a><br></h4>
+  <button class="btn btn-primary btn-sm">Download Now</button>
+  </article>
+  <article class="list-group-item">
+  <img src="google_chrome.jpg" width="50px" height="50px" style="float:left;"><h4><a href="#">Google Chrome 7.0</a><br></h4>
+  <button class="btn btn-primary btn-sm">Download Now</button>
+  </article>
+</div>
+
+  </div>
+</div>
+     <div class="well">
+     Adds panel 
+    </div>   
+</div>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'tamplate/app.twig' %}
+{% block content %}
+<div class="container-fluid">
+<div class="page-header">
+<h3>All Apps</h3>
+</div>
+<div class="well" style="overflow:scroll;">
+<table class="table">
+    <thead>
+      <tr>
+      	<th>App ID</th>
+        <th>App Name</th>
+        <th>size</th>
+        <th>version</th>
+        <th>Slug</th>
+        <th>Download Path</th>
+        <th>Catagory</th>
+        <th>Image Type</th>
+        <th>ICON</th>
+        <th>Screenshots</th>
+        <th>Screenshots</th>
+        <th>Screenshots</th>
+        <th>Added By</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+     {% for app in applist.app %}
+      <tr>
+        <td>{{ app.aid }}</td>
+        <td>{{ app.name }}</td>
+        <td>{{ app.size }}</td>
+        <td>{{ app.version }}</td>
+        <td>{{ app.slug }}</td>
+        <td>{{ app.path }}</td>
+        <td>
+        {% for catg in catagory.cat %} 
+        {% if catg.cid == app.catagory %}  
+        {{ catg.name }} 
+        {% endif %}
+        {% endfor %}
+        </td>
+        <td>{% if app.img_type == 1 %} Local Uploaded {% else %} Out Sourced {% endif %}</td>
+        <td>{{ app.icon }}</td>
+        <td>{{ app.ss1 }}</td>
+        <td>{{ app.ss2 }}</td>
+        <td>{{ app.ss3 }}</td>
+        <td>
+        {% for admin in admins.usr %}
+        {% if admin.aid == app.published_by %}
+        {{ admin.username }}
+        {% endif %}
+        {% endfor %}
+        </td>
+        <td><a href="{{ base_url() }}/dashboard/apps/update/{{ app.aid }}" class="btn btn-info" >Edit</a><br>
+        <form action="{{ base_url() }}/dashboard/apps/trash/{{ app.aid }}" method="post">
+        <input type="submit" value="Delete" class="btn btn-warning" />
+        </form>
+        </td>
+      </tr>  
+      {% endfor %}    
+    </tbody>
+  </table>
+</div>
+</div>
+{% endblock %}

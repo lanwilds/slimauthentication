@@ -1,0 +1,78 @@
+
+ <div id="wrapper">
+        <div id="sidebar-wrapper">
+            <aside id="sidebar">
+                <ul id="sidemenu" class="sidebar-nav">
+                    <li>
+                        <a href="{{ path_for('dash') }}">
+                            <span class="sidebar-icon"><i class="fa fa-home"></i></span>
+                            <span class="sidebar-title">Dashboard Home</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="accordion-toggle collapsed toggle-switch" data-toggle="collapse" href="#submenu-2">
+                            <span class="sidebar-icon"><i class="fa fa-android"></i></span>
+                            <span class="sidebar-title">Content</span>
+                            <b class="caret"></b>
+                        </a>
+                        <ul id="submenu-2" class="panel-collapse collapse panel-switch" role="menu">
+                        	<li><a href="{{ path_for('dash.appslist') }}"><i class="fa fa-caret-right"></i>All Apps</a></li>
+                            <li><a href="{{ path_for('dash.apps') }}"><i class="fa fa-caret-right"></i>Add New</a></li>
+                            <li><a href="{{ path_for('dash.newpage') }}"><i class="fa fa-caret-right"></i>New Page</a></li>
+                            <li><a href="{{ path_for('dash.pages') }}"><i class="fa fa-caret-right"></i>Pages</a></li>
+                            {% if auth.user.cast == 2 %}
+                            {% else %}
+                            <li><a href="{{ path_for('dash.trash') }}"><i class="fa fa-caret-right"></i>Trash</a></li>
+                            {% endif %}
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="accordion-toggle collapsed toggle-switch" data-toggle="collapse" href="#submenu-3">
+                            <span class="sidebar-icon"><i class="fa fa-users"></i></span>
+                            <span class="sidebar-title">Users Stuff</span>
+                            <b class="caret"></b>
+                        </a>
+                        <ul id="submenu-3" class="panel-collapse collapse panel-switch" role="menu">
+                            <li><a href="#"><i class="fa fa-caret-right"></i>Subscribers</a></li>
+                            {% if auth.user.cast == 2 %}
+                            {% else %}
+                            <li><a href="{{ path_for('dash.staff') }}"><i class="fa fa-caret-right"></i>Staff Users</a></li>
+                            <li><a href="{{ path_for('dash.newstaff') }}"><i class="fa fa-caret-right"></i>Add Staff</a></li>
+                            {% endif %}
+                            <li><a href="#"><i class="fa fa-caret-right"></i>Comments</a></li>
+                            <li><a href="#"><i class="fa fa-caret-right"></i>Reviews</a></li>
+                            <li><a href="#"><i class="fa fa-caret-right"></i>Queries</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="accordion-toggle collapsed toggle-switch" data-toggle="collapse" href="#submenu-4">
+                            <span class="sidebar-icon"><i class="fa fa-area-chart"></i></span>
+                            <span class="sidebar-title">Traffic & Site Status</span>
+                            <b class="caret"></b>
+                        </a>
+                        <ul id="submenu-4" class="panel-collapse collapse panel-switch" role="menu">
+                        	<li><a href="#"><i class="fa fa-caret-right"></i>Visitors</a></li>
+                            <li><a href="#"><i class="fa fa-caret-right"></i>Spammers</a></li>
+                            <li><a href="#"><i class="fa fa-caret-right"></i>Site SEO</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="accordion-toggle collapsed toggle-switch" data-toggle="collapse" href="#submenu-5">
+                            <span class="sidebar-icon"><i class="fa fa-magic"></i></span>
+                            <span class="sidebar-title">Home Page Theams</span>
+                            <b class="caret"></b>
+                        </a>
+                        <ul id="submenu-5" class="panel-collapse collapse panel-switch" role="menu">
+                        	<li><a href="{{ path_for('dash.home.offers') }}"><i class="fa fa-caret-right"></i>Home Page Offers</a></li>
+                            <li><a href="#"><i class="fa fa-caret-right"></i>App requests</a></li>
+                            <li><a href="#"><i class="fa fa-caret-right"></i>Advertizement</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>            
+        </div>
+        <main id="page-content-wrapper" role="main">
+        <div id="container">
+        
+
+

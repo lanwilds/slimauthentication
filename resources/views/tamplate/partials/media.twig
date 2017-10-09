@@ -1,0 +1,65 @@
+  <script>
+$(document).ready(function(){
+  $('#data').hide();
+  $('#myForm').on('submit',function(e){
+    e.preventDefault();
+    $.ajax({
+      url:"{{ path_for('upload.image') }}",
+      method:"POST",
+      data:new FormData(this),
+      contentType:false,
+      processData:false,
+      success:function(data)
+      {
+        $('#data').show();
+        $('#data').html(data);
+      }
+    });
+  });
+});
+
+
+  </script>
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Media</h4>
+        </div>
+        <div class="modal-body">
+        <div class="col-lg-2">
+          <h4>Upload An Image</h4>
+        <hr>
+        <form action="{{ path_for('upload.image') }}" method="post" enctype="multipart/form-data" id="myForm">
+        <input type="file" name="file" id="img" >
+        <input type="submit" value="Upload Now" id="submit" class="btn btn-success" style="margin:10px;">
+        </form>
+        <div class="alert alert-info" id="data">
+          
+        </div>
+        <div class="image">
+        
+        </div>
+        <hr>
+        </div>
+        <div>
+
+          <h4>All Media</h4>
+        <hr>
+        <div  style="overflow:scroll;">
+        <table class="table table-bordered" id="media-table">
+        </table>
+       </div>
+        </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>

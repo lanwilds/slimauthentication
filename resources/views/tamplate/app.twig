@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Dashboard: Loyal API</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="http://malsup.github.com/jquery.form.js"></script>
+<link rel="stylesheet" type="text/css" href="{{ base_url() }}/assets/dash.css">
+<script type="text/javascript" src="{{ base_url() }}/assets/script.js"></script>
+</head>
+
+
+<body>
+	{% include 'tamplate/partials/navigation.twig' %}
+
+
+{% include 'dashboard.twig' %}
+{% include 'tamplate/partials/flash.twig' %}
+{% include 'tamplate/partials/media.twig' %}
+{% block content %}
+<div class="page-header">
+<h4><i class="fa fa-fire"></i> Hot Movements</h4>
+</div>
+<div class="col-md-10">
+  <table class="table table-striped">
+    <thead>
+    <th colspan="4" ><i class="fa fa-users"></i> TOP 10 Visits  <a href="#"><font style="float:right;">View All</font></a></th>
+      <tr>
+        <th>#</th>
+        <th>IP Address</th>
+        <th>URL visited</th>
+        <th>Browser</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for visitor in topvisitors %}
+      <tr>
+        <td>#{{ visitor.vid }} </td>
+        <td> {{ visitor.vip }} </td>
+        <td> {{ visitor.url }} </td>
+        <td> {{ visitor.browser }} </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+<table class="table table-hover">
+    <thead>
+      <th colspan="3" > <i class="fa fa-android"></i> TOP 10 Apps  <a href="{{ path_for('dash.appslist') }}"><font style="float:right;">View All</font></a></th>
+      <tr>
+        <th>App ID</th>
+        <th>App Name</th>
+        <th>Creator</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for topapp in topapps %}
+      <tr>
+        <td>{{ topapp.aid }}</td>
+        <td>{{ topapp.name }}</td>
+        <td>
+        {% for usr in admins.usr %}
+        {% if topapp.published_by == usr.aid %}
+        {{ usr.name }}
+        {% endif %}
+        {% endfor %}
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+<table class="table table-hover">
+    <thead>
+      <th colspan="3" ><i class="fa fa-file-text"></i>  TOP 10 Pages <a href="{{ path_for('dash.pages') }}"><font style="float:right;">View All</font></a></th>
+      <tr>
+        <th>Page ID</th>
+        <th>Page Name</th>
+        <th>Creator</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for page in toppages %}
+      <tr>
+        <td>{{page.pid}}</td>
+        <td>{{page.title}}</td>
+        <td>
+        {% for usr in admins.usr %}
+        {% if page.published_by == usr.aid %}
+        {{ usr.name }}
+        {% endif %}
+        {% endfor %}
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+        </div>
+        </main>
+    </div> 
+{% endblock %}
+
+</body>
+</html>
+
+

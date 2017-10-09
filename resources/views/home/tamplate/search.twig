@@ -1,0 +1,72 @@
+{% extends 'home/tamplate/childlayout.twig' %}
+{% block content %}
+<div class="well" style="margin-top:60px;">
+     Adds panel 
+ </div>
+<h3 class="heading">
+<span>All Apps</span>
+<br>
+</h3>
+<br>
+<style type="text/css">  
+.btn-product{
+  width: 100%;
+} 
+</style>
+<!--Heading starts ends-->
+<div class="container">    
+ <div class="row">
+      <div class="col-md-12">
+{% for apps in searchapps %}
+      <div class="col-sm-3 col-md-3">
+        <div class="thumbnail" >
+          <h4 class="text-center"><span class="label label-info"> 
+           {% for cats in catagory.cat %}
+           {% if cats.cid == apps.catagory %}
+           {{ cats.name }}
+           {% endif %}
+           {% endfor %}
+           </span></h4>
+           {% if apps.img_type == 1 %}
+          <img src="{{ base_url() }}/images/{{ apps.icon }}" width="200" height="200" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail">
+          {% else %}
+          <img src="{{ apps.icon }}" width="200" height="200" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail">
+          {% endif %}
+
+          <div class="caption">
+            <div class="row">
+              <div class="col-md-6 col-xs-6">
+                <h4><a href="{{ base_url() }}/apps{% for cats in catagory.cat %}{% if cats.cid == apps.catagory %}/{{ cats.slug }}/{% endif %}{% endfor %}{{ apps.slug }}.html">{{ apps.name }}</a></h4>
+              </div>
+              <div class="col-md-6 col-xs-6 price">
+                <h5>
+                <label>{{ apps.size }}</label></h5>
+              </div>
+              <div class="col-md-6 col-xs-6 price">
+                <em>
+                <label><b>Version: {{ apps.version }} </b></label></em>
+              </div>
+            </div>
+           
+            <div class="row">
+              <div class="col-md-6">
+                <a class="btn btn-primary btn-product"><span class="glyphicon glyphicon-thumbs-up"></span>Like <span class="badge">100</span></a> 
+              </div>
+              <div class="col-md-6">
+                <a href="#" class="btn btn-success btn-product"><span class="glyphicon glyphicon-shopping-cart"></span>Download</a></div>
+            </div>
+
+            <p> </p>
+          </div>
+        </div>
+      </div>
+{% endfor %}
+    </div> 
+</div>
+
+</div>
+<!--PAGINATION-->
+    <div class="well">
+     Adds panel 
+    </div>
+{% endblock %}

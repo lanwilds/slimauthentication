@@ -1,0 +1,699 @@
+{% extends 'tamplate/app.twig' %}
+
+{% block content %}
+
+<script type="text/javascript">
+/*$(document).ready(function () {
+
+	$('.star').on('click', function () {
+      $(this).toggleClass('star-checked');
+    });
+
+    $('.ckbox label').on('click', function () {
+      $(this).parents('tr').toggleClass('selected');
+    });
+
+    $('.btn-filter').on('click', function () {
+      var $target = $(this).data('target');
+      if ($target != 'all') {
+        $('.table tr').css('display', 'none');
+        $('.table tr[data-status="' + $target + '"]').fadeIn('slow');
+      } else {
+        $('.table tr').css('display', 'none').fadeIn('slow');
+      }
+    });
+
+ });*/
+getCarousel();
+function getCarousel()
+{
+	 $.ajax({
+      url:"{{ path_for('dash.getcarousel') }}",
+      method:"POST",
+      success:function(data)
+      {
+      	var obj = JSON.parse(data);
+      	$('#mytable tbody').html('');
+      	for(o in obj)
+      	{
+      		var bid = obj[o].bid;
+          $('#mytable tbody').append('<tr>');
+      		$('#mytable tbody').append('<td>'+obj[o].title+'</td>');
+      		$('#mytable tbody').append('<td>'+obj[o].btxt+'</td>');
+      		$('#mytable tbody').append('<td>'+obj[o].btgt+'</td>');
+      		$('#mytable tbody').append('<td>'+obj[o].blink+'</td>');
+      		$('#mytable tbody').append('<td>'+obj[o].description+'</td>');
+          if(obj[o].pref == 1)
+          {
+            $('#mytable tbody').append('<td>First Slide</td>');
+          } 
+          else if(obj[o].pref == 2)
+          {
+            $('#mytable tbody').append('<td>Second Slice</td>');
+          } else 
+          {
+            $('#mytable tbody').append('<td>Third Slide</td>');
+          }
+      		$('#mytable tbody').append('<td><p data-placement="top" data-toggle="tooltip" title="Edit"><button  onclick="edit('+obj[o].bid+')" class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" ><span class="glyphicon glyphicon-pencil"></span></button></p></td>');
+      		$('#mytable tbody').append('<td><p data-placement="top" data-toggle="tooltip" title="Delete"><button onclick="delete()" class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" onclick="delete('+bid+')" ><span class="glyphicon glyphicon-trash"></span></button></p></td>');
+      		$('#mytable tbody').append('</tr>');
+      	}
+      	
+      }
+	});
+}
+function edit(bid)
+{
+	 $.ajax({
+      url:"{{ path_for('dash.editcarousel') }}",
+      method:"POST",
+      data:{ id : bid },
+      success:function(data)
+      {
+      	var obj = JSON.parse(data);
+      	for(o in obj)
+      	{ 
+      	 $('#name').val(obj[o].title);
+      	 $('#btgt').val(obj[o].btgt);
+      	 $('#blink').val(obj[o].blink);
+      	 $('#btxt').val(obj[o].btxt);
+      	 $('#desc').val(obj[o].description);
+      	}
+      }
+  });
+}
+$(document).ready(function(){
+$("#mytable #checkall").click(function () {
+        if ($("#mytable #checkall").is(':checked')) {
+            $("#mytable input[type=checkbox]").each(function () {
+                $(this).prop("checked", true);
+            });
+
+        } else {
+            $("#mytable input[type=checkbox]").each(function () {
+                $(this).prop("checked", false);
+            });
+        }
+    });
+    
+    $("[data-toggle=tooltip]").tooltip();
+  
+   $('#addclick').click(function(){
+   		$('#newcarousel').trigger("reset");
+   });
+  $('#newcarousel').on('submit',function(e){
+    e.preventDefault();
+    $.ajax({
+      url:"{{ path_for('dash.newcarousel') }}",
+      method:"POST",
+      data:new FormData(this),
+      contentType:false,
+      processData:false,
+      success:function(data)
+      {
+      	if(data == '')
+      	{
+      		$('#add').hide();
+			$('.modal-backdrop').hide();
+			$('#notify').html('Added success').show().delay(1000);
+			getCarousel();
+      		return;
+      	}
+      	var obj = JSON.parse(data)
+      	if(data != '')
+      	{ 
+      		$('#erros').html('Invalid Data input'); 
+      		$('#erros').show(2000).fadeIn();
+      		$('#erros').hide(2000);
+      	} 
+      }
+    });
+  });
+
+  $('#editcarousel').on('submit',function(e){
+    e.preventDefault();
+    $.ajax({
+      url:"{{ path_for('dash.newcarousel') }}",
+      method:"POST",
+      data:new FormData(this),
+      contentType:false,
+      processData:false,
+      success:function(data)
+      {
+        if(data == '')
+        {
+          $('#edit').hide();
+      $('.modal-backdrop').hide();
+      $('#notify').html('Updated success').show().delay(1000);
+      getCarousel();
+          return;
+        }
+        var obj = JSON.parse(data)
+        if(data != '')
+        { 
+          $('#erros').html('Invalid Data input'); 
+          $('#erros').show(2000).fadeIn();
+          $('#erros').hide(2000);
+        } 
+      }
+    });
+  });
+  function delete(bid)
+  {
+    alert(bid);
+    return 0;
+  }
+
+  $('#deleteForm').on('submit',function(e){
+    e.preventDefault();
+    $.ajax({
+      url:"{{ path_for('dash.deletecarousel') }}",
+      method:"POST",
+      data:new FormData(this),
+      contentType:false,
+      processData:false,
+      success:function(data)
+      {
+        if(data == '')
+        {
+          $('#edit').hide();
+      $('.modal-backdrop').hide();
+      $('#notify').html('Updated success').show().delay(1000);
+      getCarousel();
+          return;
+        }
+        var obj = JSON.parse(data)
+        if(data != '')
+        { 
+          $('#erros').html('Invalid Data input'); 
+          $('#erros').show(2000).fadeIn();
+          $('#erros').hide(2000);
+        } 
+      }
+    });
+  });
+});
+
+
+
+</script>
+<style type="text/css">
+	/*    --------------------------------------------------
+	:: General
+	-------------------------------------------------- 
+table{
+	font-family: 'Open Sans', sans-serif;
+	color: #353535;
+}
+.content h1 {
+	text-align: center;
+}
+.content .content-footer p {
+	color: #6d6d6d;
+    font-size: 12px;
+    text-align: center;
+}
+.content .content-footer p a {
+	color: inherit;
+	font-weight: bold;
+}
+
+/*	--------------------------------------------------
+	:: Table Filter
+	-------------------------------------------------- 
+.panel {
+	border: 1px solid #ddd;
+	background-color: #fcfcfc;
+}
+.panel .btn-group {
+	margin: 15px 0 30px;
+}
+.panel .btn-group .btn {
+	transition: background-color .3s ease;
+}
+.table-filter {
+	background-color: #fff;
+	border-bottom: 1px solid #eee;
+}
+.table-filter tbody tr:hover {
+	cursor: pointer;
+	background-color: #eee;
+}
+.table-filter tbody tr td {
+	padding: 10px;
+	vertical-align: middle;
+	border-top-color: #eee;
+}
+.table-filter tbody tr.selected td {
+	background-color: #eee;
+}
+.table-filter tr td:first-child {
+	width: 38px;
+}
+.table-filter tr td:nth-child(2) {
+	width: 35px;
+}
+.ckbox {
+	position: relative;
+}
+.ckbox input[type="checkbox"] {
+	opacity: 0;
+}
+.ckbox label {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+.ckbox label:before {
+	content: '';
+	top: 1px;
+	left: 0;
+	width: 18px;
+	height: 18px;
+	display: block;
+	position: absolute;
+	border-radius: 2px;
+	border: 1px solid #bbb;
+	background-color: #fff;
+}
+.ckbox input[type="checkbox"]:checked + label:before {
+	border-color: #2BBCDE;
+	background-color: #2BBCDE;
+}
+.ckbox input[type="checkbox"]:checked + label:after {
+	top: 3px;
+	left: 3.5px;
+	content: '\e013';
+	color: #fff;
+	font-size: 11px;
+	font-family: 'Glyphicons Halflings';
+	position: absolute;
+}
+.table-filter .star {
+	color: #ccc;
+	text-align: center;
+	display: block;
+}
+.table-filter .star.star-checked {
+	color: #F0AD4E;
+}
+.table-filter .star:hover {
+	color: #ccc;
+}
+.table-filter .star.star-checked:hover {
+	color: #F0AD4E;
+}
+.table-filter .media-photo {
+	width: 35px;
+}
+.table-filter .media-body {
+    
+    /* Had to use this style to force the div to expand (wasn't necessary with my bootstrap version 3.3.6) 
+}
+.table-filter .media-meta {
+	font-size: 11px;
+	color: #999;
+}
+.table-filter .media .title {
+	color: #2BBCDE;
+	font-size: 14px;
+	font-weight: bold;
+	line-height: normal;
+	margin: 0;
+}
+.table-filter .media .title span {
+	font-size: .8em;
+	margin-right: 20px;
+}
+.table-filter .media .title span.pagado {
+	color: #5cb85c;
+}
+.table-filter .media .title span.pendiente {
+	color: #f0ad4e;
+}
+.table-filter .media .title span.cancelado {
+	color: #d9534f;
+}
+.table-filter .media .summary {
+	font-size: 14px;
+}*/
+</style>
+<div class="page-header">
+<h3><i class="fa fa-magic"></i> Home Page Offers </h3>
+</div>
+<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" onclick="getImages()">Add Media</button>
+<div class="container">
+<div id="notify" class="alert alert-success" style="display:none; margin-top:20px;"></div>
+	<div class="row">
+		
+        
+        <div class="col-md-12">
+        <h4>Home Page Carousel <button style="float:right;" class="btn btn-primary btn-xs" data-title="add" data-toggle="modal" data-target="#add" id="addclick"><span class="glyphicon glyphicon-plus"></span>Add New</button></h4>
+        <div class="table-responsive">
+
+                
+              <table id="mytable" class="table table-bordred table-striped">
+                   
+                   <thead>
+                   
+                   <th>Title</th>
+                    <th>Button</th>
+                     <th>Link</th>
+                     <th>Banner</th>
+                     <th>Description</th>
+                     <th>Preference</th>
+                      <th>Edit</th>
+                      
+                       <th>Delete</th>
+                   </thead>
+<tbody>
+</tbody>       
+</table>
+
+<div class="clearfix"></div>
+<ul class="pagination pull-right">
+  <li class="disabled"><a href="#"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
+  <li class="active"><a href="#">1</a></li>
+  <li><a href="#">2</a></li>
+  <li><a href="#">3</a></li>
+  <li><a href="#">4</a></li>
+  <li><a href="#">5</a></li>
+  <li><a href="#"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
+</ul>
+                
+            </div>
+            
+        </div>
+	</div>
+</div>
+
+<!--EDIT MODAL-->
+
+ <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="Edit" aria-hidden="true">
+      <div class="modal-dialog">
+    <div class="modal-content">
+          <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+        <h4 class="modal-title custom_align" id="Heading">Edit</h4>
+      </div>
+       <div class="modal-body">
+       <p id="erros" style="display:none;" class="alert alert-danger"></p>
+       <form action="{{ path_for('dash.updatecarousel') }}" method="post" id="editcarousel">
+        <div class="form-group">
+        <input class="form-control" name="title" type="text" placeholder="Title Here" id="name">
+        <span class="help-block"></span>
+        </div>
+
+        <div class="form-group ">
+        <input class="form-control" name="btxt" type="text" placeholder="Button Text Here" id="btxt">
+        <span class="help-block"></span>
+        </div>
+
+        <div class="form-group">
+        <input class="form-control" name="btgt" type="text" placeholder="Button Target" id="btgt">
+        <span class="help-block"></span>
+        </div>
+
+        <div class="form-group ">
+        <input class="form-control" name="blink" type="text" placeholder="complete Banner link here" id="blink">
+        <span class="help-block"></span>
+        </div>
+
+        <div class="form-group">
+        <textarea rows="2" name="description" class="form-control" placeholder="Description here" id="desc"></textarea>
+        <span class="help-block"></span>
+        </div>
+        <div class="form-group">
+        <select name="pref">
+          <option value="0">Select Preference</option>
+          <option value="1">First Slide</option>
+          <option value="2">Second Slide</option>
+          <option value="3">Third Slide</option>
+        </select>
+        <span class="help-block"></span>
+        </div>
+      </div>
+          <div class="modal-footer ">
+        <button type="submit" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span>Update</button>
+      </div>
+      </form>
+        </div>
+    <!-- /.modal-content --> 
+  </div>
+      <!-- /.modal-dialog --> 
+</div> 
+    
+ <!-- Create Modal -->  
+
+ <div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="add" aria-hidden="true">
+      <div class="modal-dialog">
+    <div class="modal-content">
+          <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+        <h4 class="modal-title custom_align" id="Heading">Add New</h4>
+      </div>
+       <div class="modal-body">
+       <p class="alert alert-warning" style="display:none;" id="erros"></p>
+       <form action="{{ path_for('dash.newcarousel') }}" method="post" id="newcarousel">
+        <div class="form-group">
+        <input class="form-control" name="title" type="text" placeholder="Title Here">
+       <span class="help-block"></span>
+        </div>
+
+        <div class="form-group">
+        <input class="form-control" name="btxt" type="text" placeholder="Button Text Here">
+        <span class="help-block"></span>
+        </div>
+
+        <div class="form-group">
+        <input class="form-control" name="btgt" type="text" placeholder="Button Target">
+        <span class="help-block"></span>
+        </div>
+
+        <div class="form-group">
+        <input class="form-control" name="blink" type="text" placeholder="complete Banner link here">
+        <span class="help-block"></span>
+        </div>
+
+        <div class="form-group">
+        <textarea rows="2" name="description" class="form-control" placeholder="Description here"></textarea>
+        <span class="help-block"></span>
+        </div>
+        <div class="form-group">
+        <select name="pref">
+          <option value="0">Select Preference</option>
+          <option value="1">First Slide</option>
+          <option value="2">Second Slide</option>
+          <option value="3">Third Slide</option>
+        </select>
+        <span class="help-block"></span>
+        </div>
+      </div>
+          <div class="modal-footer ">
+        <button type="submit" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span>Add</button>
+      </div>
+      </form>
+        </div>
+    <!-- /.modal-content --> 
+  </div>
+      <!-- /.modal-dialog --> 
+</div> 
+    <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+      <div class="modal-dialog">
+    <div class="modal-content">
+          <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+        <h4 class="modal-title custom_align" id="Heading">Delete this entry</h4>
+      </div>
+          <div class="modal-body">
+       
+       <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to delete this Record?</div>
+       
+      </div>
+        <div class="modal-footer ">
+        <form action="" method="post" name="deleteForm" id="deletecar">
+        <input type="hidden" name="bid" id="bid" value="">
+        <button type="submit" class="btn btn-success" ><span class="glyphicon glyphicon-ok-sign"></span> Yes</button>
+        </form>
+        <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button>
+      </div>
+        </div>
+    <!-- /.modal-content --> 
+  </div>
+      <!-- /.modal-dialog --> 
+    </div>
+
+
+<!--
+	<div class="row">
+	<div class="container-fluid">
+		<section class="content">
+			<div class="col-md-9 col-md-offset-0">
+				<div class="panel panel-default">
+				<div class="panel-heading">
+				<h3>Home Page Management</h3></div>
+					<div class="panel-body">
+						<div class="pull-right">
+							<div class="btn-group">
+								<button type="button" class="btn btn-success btn-filter" data-target="pagado">Carosel</button>
+							    <button type="button" class="btn btn-success btn-filter" data-target="pagado">Carosel</button>
+								<button type="button" class="btn btn-warning btn-filter" data-target="pendiente">Top Apps</button>
+								<button type="button" class="btn btn-danger btn-filter" data-target="cancelado">Cancelado</button>
+								<button type="button" class="btn btn-default btn-filter" data-target="all">Todos</button>
+							</div>
+						</div>
+						<div class="table-container">
+							<table class="table table-filter">
+								<tbody>
+									<tr data-status="pagado">
+										<td>
+											<div class="ckbox">
+												<input type="checkbox" id="checkbox1">
+												<label for="checkbox1"></label>
+											</div>
+										</td>
+										<td>
+											<a href="javascript:;" class="star">
+												<i class="glyphicon glyphicon-star"></i>
+											</a>
+										</td>
+										<td>
+											<div class="media">
+												<a href="#" class="pull-left">
+													<img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">
+												</a>
+												<div class="media-body">
+													<span class="media-meta pull-right">Febrero 13, 2016</span>
+													<h4 class="title">
+														Lorem Impsum
+														<span class="pull-right pagado">(Pagado)</span>
+													</h4>
+													<p class="summary">Ut enim ad minim veniam, quis nostrud exercitation...</p>
+												</div>
+											</div>
+										</td>
+									</tr>
+									<tr data-status="pendiente">
+										<td>
+											<div class="ckbox">
+												<input type="checkbox" id="checkbox3">
+												<label for="checkbox3"></label>
+											</div>
+										</td>
+										<td>
+											<a href="javascript:;" class="star">
+												<i class="glyphicon glyphicon-star"></i>
+											</a>
+										</td>
+										<td>
+											<div class="media">
+												<a href="#" class="pull-left">
+													<img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">
+												</a>
+												<div class="media-body">
+													<span class="media-meta pull-right">Febrero 13, 2016</span>
+													<h4 class="title">
+														Lorem Impsum
+														<span class="pull-right pendiente">(Pendiente)</span>
+													</h4>
+													<p class="summary">Ut enim ad minim veniam, quis nostrud exercitation...</p>
+												</div>
+											</div>
+										</td>
+									</tr>
+									<tr data-status="cancelado">
+										<td>
+											<div class="ckbox">
+												<input type="checkbox" id="checkbox2">
+												<label for="checkbox2"></label>
+											</div>
+										</td>
+										<td>
+											<a href="javascript:;" class="star">
+												<i class="glyphicon glyphicon-star"></i>
+											</a>
+										</td>
+										<td>
+											<div class="media">
+												<a href="#" class="pull-left">
+													<img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">
+												</a>
+												<div class="media-body">
+													<span class="media-meta pull-right">Febrero 13, 2016</span>
+													<h4 class="title">
+														Lorem Impsum
+														<span class="pull-right cancelado">(Cancelado)</span>
+													</h4>
+													<p class="summary">Ut enim ad minim veniam, quis nostrud exercitation...</p>
+												</div>
+											</div>
+										</td>
+									</tr>
+									<tr data-status="pagado" class="selected">
+										<td>
+											<div class="ckbox">
+												<input type="checkbox" id="checkbox4" checked>
+												<label for="checkbox4"></label>
+											</div>
+										</td>
+										<td>
+											<a href="javascript:;" class="star star-checked">
+												<i class="glyphicon glyphicon-star"></i>
+											</a>
+										</td>
+										<td>
+											<div class="media">
+												<a href="#" class="pull-left">
+													<img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">
+												</a>
+												<div class="media-body">
+													<span class="media-meta pull-right">Febrero 13, 2016</span>
+													<h4 class="title">
+														Lorem Impsum
+														<span class="pull-right pagado">(Pagado)</span>
+													</h4>
+													<p class="summary">Ut enim ad minim veniam, quis nostrud exercitation...</p>
+												</div>
+											</div>
+										</td>
+									</tr>
+									<tr data-status="pendiente">
+										<td>
+											<div class="ckbox">
+												<input type="checkbox" id="checkbox5">
+												<label for="checkbox5"></label>
+											</div>
+										</td>
+										<td>
+											<a href="javascript:;" class="star">
+												<i class="glyphicon glyphicon-star"></i>
+											</a>
+										</td>
+										<td>
+											<div class="media">
+												<a href="#" class="pull-left">
+													<img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">
+												</a>
+												<div class="media-body">
+													<span class="media-meta pull-right">Febrero 13, 2016</span>
+													<h4 class="title">
+														Lorem Impsum
+														<span class="pull-right pendiente">(Pendiente)</span>
+													</h4>
+													<p class="summary">Ut enim ad minim veniam, quis nostrud exercitation...</p>
+												</div>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>	
+	</div>
+</div>
+-->
+{% endblock %}
